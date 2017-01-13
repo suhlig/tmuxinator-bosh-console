@@ -18,17 +18,6 @@ def tmux(command)
   #  puts "#{command};"
 end
 
-config = YAML.load_file(Pathname('~/.bosh_config').expand_path)
-
-director_url = config['target'] # e.g. https://192.168.50.4:25555
-director_auth = config['auth'][director_url] # username + password
-deployment = ARGV.first || die('Missing argument for deployment name')
-
-director = BOSH::Director.new(director_url,
-                   director_auth['username'],
-                   director_auth['password'],
-                   verify_ssl: :none)
-
 session_name = "bosh-#{deployment}"
 client = TMux::Client.new
 
@@ -38,11 +27,26 @@ if client.session?(session_name)
       "tmux kill-session -t #{session_name}"
 end
 
+
+config = YAML.load_file(Pathname('~/.bosh_config').expand_path)
+
+director_url = config['target'] # e.g. https://192.168.50.4:25555
+director_auth = config['auth'][director_url] # username + password
+deployment = ARGV.first || die('Missing argument for deployment name')
+
+director = BOSH::Director.new(director_url,
+                              director_auth['username'],
+                              director_auth['password'],
+                              verify_ssl: :none)
+
 session = nil
 
 director.vms(deployment).each do |vm|
   window_name = "#{vm['job']}/#{vm['index']}"
   shell_command = "bosh ssh #{vm['job']}/#{vm['index']}"
+
+  # TODO: Does this make sense?
+  # session = client.find_or_create_session(session_name, window_name, shell_command)
 
   # tmux has no way to create a session without an initial window, so we have
   # to provide the command for the first window when creating the session.
@@ -56,8 +60,8 @@ director.vms(deployment).each do |vm|
   window.type('sudo su -', 'cd /var/vcap')
 
   # split off the monit pane
+  # monit_pane = window.split('monit summary')
 
-  # pane_1 = pane_0.split('monit summary')
   width = 10 # characters
   tmux("split-window -d -h -l #{width} -t #{session_name}:#{window_name}.0 bosh ssh #{vm['job']}/#{vm['index']}")
   tmux("send-keys -t #{session_name}:#{window_name}.1 'sudo watch -n 1 /var/vcap/bosh/bin/monit summary' C-m")
@@ -65,5 +69,5 @@ end
 
 client.switch(session_name)
 
-# materialize the collected commands
-puts client.commands.join(';')
+# materialize the collected commands into a single script
+puts client.commands.join('; ')

@@ -17,7 +17,8 @@ module TMux
 
     def create_session(session_name, window_name, shell_command=nil)
       @commands << "new-session -d -s #{session_name} -n #{window_name} #{shell_command}".strip
-      Session.new(session_name).tap do |session|
+
+      Session.new(session_name, window_name).tap do |session|
         @sessions << session
         session.client = self
       end
