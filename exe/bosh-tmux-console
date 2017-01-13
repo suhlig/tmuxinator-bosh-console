@@ -14,6 +14,10 @@ def die(msg)
   exit(1)
 end
 
+def tmux(command)
+  #  puts "#{command};"
+end
+
 config = YAML.load_file(Pathname('~/.bosh_config').expand_path)
 
 director_url = config['target'] # e.g. https://192.168.50.4:25555
@@ -25,8 +29,8 @@ director = BOSH::Director.new(director_url,
                    director_auth['password'],
                    verify_ssl: :none)
 
-client = TMux::Client.new
 session_name = "bosh-#{deployment}"
+client = TMux::Client.new
 
 if client.session?(session_name)
   die 'Not creating new windows because there already is an existing tmux ' \
@@ -34,30 +38,32 @@ if client.session?(session_name)
       "tmux kill-session -t #{session_name}"
 end
 
-director.vms(deployment).each.with_index do |vm, window_index|
+session = nil
+
+director.vms(deployment).each do |vm|
   window_name = "#{vm['job']}/#{vm['index']}"
+  shell_command = "bosh ssh #{vm['job']}/#{vm['index']}"
 
   # tmux has no way to create a session without an initial window, so we have
   # to provide the command for the first window when creating the session.
-  if window_index.zero?
-    # client.create_session(session_name, window_name)
-    `tmux new-session -d -s #{session_name} -n #{window_name} bosh ssh #{vm['job']}/#{vm['index']}`
-  else
-    # pane_0 = session.create_window(window_name)
-    `tmux new-window -d -t #{session_name}: -n #{window_name} bosh ssh #{vm['job']}/#{vm['index']}`
-  end
+  window = if session.nil?
+             session = client.create_session(session_name, window_name, shell_command)
+             session.window(window_name)
+           else
+             session.create_window(window_name, shell_command)
+           end
 
-  # window.type('sudo su -', 'cd /var/vcap')
-  `tmux send-keys -t #{session_name}:#{window_name} "sudo su -" C-m`
-  `tmux send-keys -t #{session_name}:#{window_name} "cd /var/vcap" C-m`
+  window.type('sudo su -', 'cd /var/vcap')
 
   # split off the monit pane
 
   # pane_1 = pane_0.split('monit summary')
-  width = 50 # characters
-  `tmux split-window -d -h -l #{width} -t #{session_name}:#{window_name}.0 bosh ssh #{vm['job']}/#{vm['index']}`
-  `tmux send-keys -t #{session_name}:#{window_name}.1 "sudo watch -n 1 /var/vcap/bosh/bin/monit summary" C-m`
+  width = 10 # characters
+  tmux("split-window -d -h -l #{width} -t #{session_name}:#{window_name}.0 bosh ssh #{vm['job']}/#{vm['index']}")
+  tmux("send-keys -t #{session_name}:#{window_name}.1 'sudo watch -n 1 /var/vcap/bosh/bin/monit summary' C-m")
 end
 
-# client.switch(session_name)
-`tmux switch-client -t #{session_name}`
+client.switch(session_name)
+
+# materialize the collected commands
+puts client.commands.join(';')

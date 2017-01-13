@@ -4,8 +4,10 @@ source 'https://rubygems.org'
 gem 'rest-client'
 
 group :development do
+  gem 'guard'
+  gem 'guard-bundler'
+  gem 'guard-rspec'
   gem 'pry'
-  gem 'pry-byebug'
   gem 'rake'
   gem 'rb-readline'
   gem 'rspec'
