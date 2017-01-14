@@ -21,7 +21,7 @@ if client.session?(session_name)
       "tmux kill-session -t #{session_name}"
 end
 
-# TODO Replace with new factory method:
+# TODO: Replace with new factory method:
 # BOSH::Director.from_file('~/.bosh_config')
 require 'yaml'
 require 'pathname'
@@ -54,9 +54,9 @@ director.vms(deployment).each do |vm|
   window.type('sudo su -', 'cd /var/vcap')
 
   # split off the monit pane
-  monit_pane = window.split('monit summary', shell_command, direction: :horizontal, size: 10)
-  # tmux("split-window -d -h -l #{width} -t #{session_name}:#{window_name}.0 bosh ssh #{vm['job']}/#{vm['index']}")
-  monit_pane.type('sudo watch -n 1 /var/vcap/bosh/bin/monit summary')
+  window.split(shell_command: shell_command, direction: :vertical, size: 10)
+
+  # monit_pane.type('sudo watch -n 1 /var/vcap/bosh/bin/monit summary')
   # tmux("send-keys -t #{session_name}:#{window_name}.1 'sudo watch -n 1 /var/vcap/bosh/bin/monit summary' C-m")
 end
 
