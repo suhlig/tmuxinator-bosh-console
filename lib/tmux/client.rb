@@ -16,7 +16,10 @@ module TMux
     end
 
     def create_session(session_name, window_name, shell_command=nil)
-      @commands << "new-session -d -s #{session_name} -n #{window_name} #{shell_command}".strip
+      # Do not send the shell command as initial command, because this would
+      # make the whole session disappear if that first command fails.
+      @commands << "new-session -d -s #{session_name} -n #{window_name}".strip
+      @commands << "send-keys -t #{session_name}:#{window_name} '#{shell_command}' C-m".strip
 
       Session.new(session_name, window_name).tap do |session|
         @sessions << session

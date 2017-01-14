@@ -15,7 +15,10 @@ module TMux
     end
 
     def create_window(window_name, shell_command=nil)
-      @commands << "new-window -d -t #{name}: -n #{window_name} #{shell_command}".strip
+      # Do not send the shell command as initial command, because this would
+      # make the window including all panes disappear if that first command fails.
+      @commands << "new-window -d -t #{name}: -n #{window_name}".strip
+      @commands << "send-keys -t #{name}:#{window_name} '#{shell_command}' C-m".strip
       add_window(window_name)
     end
 
