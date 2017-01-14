@@ -11,6 +11,7 @@ def die(msg)
   exit(1)
 end
 
+deployment = ARGV.first || die('Missing argument for deployment name')
 session_name = "bosh-#{deployment}"
 client = TMux::Client.new
 
@@ -32,7 +33,6 @@ director = BOSH::Director.new(director_url,
                               director_auth['password'],
                               verify_ssl: :none)
 
-deployment = ARGV.first || die('Missing argument for deployment name')
 session = nil
 
 director.vms(deployment).each do |vm|
