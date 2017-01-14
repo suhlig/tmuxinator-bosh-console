@@ -63,4 +63,4 @@ end
 client.switch(session_name)
 
 # materialize the collected commands into a single script
-puts client.commands.join('; ')
+puts client.commands.join(";\n")
