@@ -1,14 +1,15 @@
 # frozen_string_literal: true
-require 'tmux/window'
+require 'tmux/pane'
 
 module TMux
   class Window
-    attr_reader :name, :commands
+    attr_reader :name
     attr_accessor :session
 
     def initialize(name)
       @name = name
       @commands = []
+      @panes = []
     end
 
     def type(*commands)
@@ -26,13 +27,25 @@ module TMux
         "-t #{target}".strip,
       ].compact.join(' ')
 
+      # send the command to the new pane
+      pane_id = 1
+
       if options[:shell_command]
-        @commands << "send-keys -t #{target(1)} '#{options[:shell_command]}' C-m".strip
+        @commands << "send-keys -t #{target(pane_id)} '#{options[:shell_command]}' C-m".strip
+      end
+
+      Pane.new(pane_id).tap do |pane|
+        pane.window = self
+        @panes << pane
       end
     end
 
-    private
+    def commands
+      (@commands + @panes.collect(&:commands)).flatten
+    end
 
+    # TODO: Managing the pane id here is odd. We should delegate this to the Pane.
+    # We probably need to model the default pane here, anyway.
     def target(pane=0)
       if session
         "#{session.name}:#{name}.#{pane}"
@@ -40,6 +53,8 @@ module TMux
         "#{name}.#{pane}"
       end
     end
+
+    private
 
     def orientation(options)
       orientation = options[:orientation].to_s

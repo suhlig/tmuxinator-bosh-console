@@ -23,8 +23,9 @@ RSpec.describe TMux::Window do
     end
 
     it 'can split off a new pane' do
-      window.split
+      pane = window.split
       expect(window.commands).to include('split-window -d -t test-window.0')
+      expect(pane).to respond_to(:type)
     end
 
     it 'can split off a new pane with a specifically horizontal orientation' do

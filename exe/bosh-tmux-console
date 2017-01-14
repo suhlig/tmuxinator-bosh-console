@@ -54,10 +54,12 @@ director.vms(deployment).each do |vm|
   window.type('sudo su -', 'cd /var/vcap')
 
   # split off the monit pane
-  window.split(shell_command: shell_command, direction: :vertical, size: 10)
-
-  # monit_pane.type('sudo watch -n 1 /var/vcap/bosh/bin/monit summary')
-  # tmux("send-keys -t #{session_name}:#{window_name}.1 'sudo watch -n 1 /var/vcap/bosh/bin/monit summary' C-m")
+  # TODO: The watch command goes to the wrong pane
+  window.
+    split(shell_command: shell_command,
+          direction: :vertical,
+          size: 10).
+    type('sudo watch -n 1 /var/vcap/bosh/bin/monit summary')
 end
 
 client.switch(session_name)
