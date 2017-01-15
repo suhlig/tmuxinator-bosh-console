@@ -11,6 +11,11 @@ def die(msg)
   exit(1)
 end
 
+# TODO
+# --include only this VM (whitelisting); may be repeated
+# --exclude this VM (blacklisting); may be repeated
+# --custom bosh ssh command, e.g. gateway-host
+
 deployment = ARGV.first || die('Missing argument for deployment name')
 session_name = "bosh-#{deployment}"
 client = TMux::Client.new
