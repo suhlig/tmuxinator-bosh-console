@@ -1,5 +1,5 @@
-/.envrc/
 /.bundle/
+/.envrc/
 /Gemfile.lock
 /pkg/
 /spec/reports/
