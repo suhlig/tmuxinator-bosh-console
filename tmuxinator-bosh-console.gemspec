@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.version       = Tmuxinator::BOSH::Console::VERSION
   spec.authors       = ['Steffen Uhlig']
   spec.email         = ['Steffen.Uhlig@de.ibm.com']
-
+  spec.homepage      = 'https://github.com/suhlig/bosh-tmux-console'
   spec.summary       = 'Generates the tmuxinator configuration for all VMs of a BOSH deployment'
   spec.description   = "#{spec.summary}. Each instance (VM) will get its own tmux window with some panes, according to the provided template."
   spec.license       = 'MIT'
