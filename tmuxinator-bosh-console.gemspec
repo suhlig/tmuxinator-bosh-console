@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.email         = ['Steffen.Uhlig@de.ibm.com']
 
   spec.summary       = 'Generates the tmuxinator configuration for all VMs of a BOSH deployment'
-  spec.description   = spec.summary << 'Each instance (VM) will get its own tmux window with some panes, according to the provided template.'
+  spec.description   = "#{spec.summary}. Each instance (VM) will get its own tmux window with some panes, according to the provided template."
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
