@@ -1,0 +1,36 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+$LOAD_PATH.unshift(File.expand_path('../../lib', __FILE__))
+
+require 'erb'
+
+def die(msg)
+  warn "Error: #{msg}"
+  exit(1)
+end
+
+# TODO
+# --include only this VM (whitelisting); may be repeated
+# --exclude this VM (blacklisting); may be repeated
+# --custom bosh ssh command, e.g. gateway-host
+project_name = ARGV.first || die('Missing argument for the tmuxinator project name')
+project_file = Pathname("~/.tmuxinator/#{project_name}.yml").expand_path
+
+if project_file.exist?
+  die("Not overriding tmuxinator project file #{project_file}")
+end
+
+vms = `bosh instances`.lines.map { |line|
+  md = line.match(%r{\| (?<job>\w+)\/(?<index>\d+)})
+
+  if md
+    {
+      job: md['job'],
+      index: md['index'],
+    }
+  end
+}.compact
+
+template = Pathname(__dir__) / '../templates/bosh-console.yml'
+project_file.write(ERB.new(Pathname(template).read).result(binding))

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 source 'https://rubygems.org'
 
-gem 'rest-client'
+gem 'bosh_cli'
 
 group :development do
   gem 'guard'
