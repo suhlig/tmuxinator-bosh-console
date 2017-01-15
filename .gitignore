@@ -1,1 +1,6 @@
-.envrc
+/.envrc/
+/.bundle/
+/Gemfile.lock
+/pkg/
+/spec/reports/
+/tmp/

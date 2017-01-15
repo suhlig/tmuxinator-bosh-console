@@ -4,6 +4,7 @@
 $LOAD_PATH.unshift(File.expand_path('../../lib', __FILE__))
 
 require 'erb'
+require 'pathname'
 
 def die(msg)
   warn "Error: #{msg}"
