@@ -3,7 +3,7 @@
 name: <%= project_name %>
 
 windows:
-  <% vms.each do |vm| %>
+  <% instances.each do |vm| %>
   - <%= vm[:job] %>/<%= vm[:index] %>:
       layout: main-vertical
       panes:

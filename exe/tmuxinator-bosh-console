@@ -11,10 +11,9 @@ def die(msg)
   exit(1)
 end
 
-# TODO
-# --include only this VM (whitelisting); may be repeated
-# --exclude this VM (blacklisting); may be repeated
-# --custom bosh ssh command, e.g. gateway-host
+require 'tmuxinator/bosh/console/director_gateway'
+instances = Tmuxinator::BOSH::Console::DirectorGateway.new.instances
+
 project_name = ARGV.first || die('Missing argument for the tmuxinator project name')
 project_file = Pathname("~/.tmuxinator/#{project_name}.yml").expand_path
 
@@ -22,8 +21,5 @@ if project_file.exist?
   die("Not overriding tmuxinator project file #{project_file}")
 end
 
-require 'tmuxinator/bosh/console/director_gateway'
-instances = Tmuxinator::BOSH::Console::DirectorGateway.new.instances
 template = Pathname(__dir__) / '../templates/bosh-console.yml'
-
 project_file.write(ERB.new(Pathname(template).read).result(binding))

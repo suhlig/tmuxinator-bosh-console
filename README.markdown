@@ -20,3 +20,9 @@ $ gem install tmuxinator-bosh-console
 ## Prerequisites
 
 `bosh instances` must return a zero or more instances.
+
+## TODO
+
+* `--include` only this VM (whitelisting); may be repeated
+* `--exclude` this VM (blacklisting); may be repeated
+* `--custom` bosh ssh command, e.g. gateway-host
