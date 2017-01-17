@@ -1,5 +1,7 @@
 # BOSH tmuxinator console
 
+[![Build Status](https://travis-ci.org/suhlig/tmuxinator-bosh-console.svg?branch=master)](https://travis-ci.org/suhlig/tmuxinator-bosh-console)
+
 ## Synopsis
 
 ```bash

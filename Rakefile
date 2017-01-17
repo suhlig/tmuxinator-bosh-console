@@ -10,4 +10,9 @@ RSpec::Core::RakeTask.new do |t|
   t.pattern = 'spec/**/*_spec.rb'
 end
 
+namespace :spec do
+  desc 'Run ci tests'
+  task ci: ['rubocop', :spec]
+end
+
 task default: ['rubocop:auto_correct', :spec]
