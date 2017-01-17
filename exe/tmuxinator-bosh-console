@@ -22,16 +22,8 @@ if project_file.exist?
   die("Not overriding tmuxinator project file #{project_file}")
 end
 
-vms = `bosh instances`.lines.map { |line|
-  md = line.match(%r{\| (?<job>\w+)\/(?<index>\d+)})
-
-  if md
-    {
-      job: md['job'],
-      index: md['index'],
-    }
-  end
-}.compact
-
+require 'tmuxinator/bosh/console/director_gateway'
+instances = Tmuxinator::BOSH::Console::DirectorGateway.new.instances
 template = Pathname(__dir__) / '../templates/bosh-console.yml'
+
 project_file.write(ERB.new(Pathname(template).read).result(binding))
