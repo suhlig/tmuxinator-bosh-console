@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 require 'spec_helper'
+require 'tmuxinator/bosh/console/director_gateway'
 require 'pathname'
 
 RSpec.describe Tmuxinator::BOSH::Console::DirectorGateway do
   subject(:instances) { Tmuxinator::BOSH::Console::DirectorGateway.new(report).instances }
-  let(:report) { (Pathname(__dir__).parent / 'fixtures/instances/cf-warden.txt').read }
+  let(:report) { (Pathname(__dir__).parent.parent.parent / 'fixtures/instances/cf-warden.txt').read }
 
   it 'has the expected number of instances' do
     expect(instances).to be
