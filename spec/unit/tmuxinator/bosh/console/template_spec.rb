@@ -29,7 +29,7 @@ RSpec.describe Tmuxinator::BOSH::Console::Template do
     let(:template_source) {
       (Pathname(__dir__).parent.parent.parent.parent.parent / 'templates/bosh-console.yml')
     }
-    let(:result) { YAML.load(template.render(binding)) }
+    let(:result) { YAML.safe_load(template.render(binding)) }
 
     context 'no instances' do
       it 'produces valid YAML' do
