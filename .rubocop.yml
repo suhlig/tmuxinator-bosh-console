@@ -1,5 +1,5 @@
 AllCops:
-  TargetRubyVersion: 2.3
+  TargetRubyVersion: 2.4
   Include:
     - '**/Gemfile'
     - '**/Guardfile'
@@ -30,6 +30,11 @@ Lint/UnusedMethodArgument:
 
 Metrics/AbcSize:
   Enabled: false
+
+Metrics/BlockLength:
+  Exclude:
+    - '*.gemspec'
+    - spec/**/*
 
 Metrics/ClassLength:
   Enabled: false

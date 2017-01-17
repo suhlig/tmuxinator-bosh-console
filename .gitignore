@@ -1,3 +1,4 @@
+.rake_t_cache
 /.bundle/
 /.envrc/
 /Gemfile.lock
