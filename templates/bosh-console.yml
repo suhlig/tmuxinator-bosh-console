@@ -4,17 +4,17 @@ name: <%= project_name %>
 
 windows:
   <% instances.each do |vm| %>
-  - <%= vm[:job] %>/<%= vm[:index] %>:
+  - <%= vm.name %>/<%= vm.index %>:
       layout: main-vertical
       panes:
         - shell:
-          - bosh ssh <%= vm[:job] %>/<%= vm[:index] %>
+          - bosh ssh <%= vm.name %>/<%= vm.index %>
           - sudo su -
           - cd /var/vcap
         - monit:
-          - bosh ssh <%= vm[:job] %>/<%= vm[:index] %>
+          - bosh ssh <%= vm.name %>/<%= vm.index %>
           - sudo watch -n 1 /var/vcap/bosh/bin/monit summary
         - logs:
-          - bosh ssh <%= vm[:job] %>/<%= vm[:index] %>
+          - bosh ssh <%= vm.name %>/<%= vm.index %>
           - tail -f /var/vcap/sys/log/*/*
   <% end %>

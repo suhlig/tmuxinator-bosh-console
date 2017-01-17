@@ -1,4 +1,6 @@
 # frozen_string_literal: true
+require 'tmuxinator/bosh/console/job'
+
 module Tmuxinator
   module BOSH
     module Console
@@ -13,13 +15,7 @@ module Tmuxinator
         def instances
           @report.lines.map { |line|
             md = line.match(%r{\| (?<job>\w+)\/(?<index>\d+)})
-
-            if md
-              {
-                job: md['job'],
-                index: md['index'],
-              }
-            end
+            Job.new(md['job'], md['index']) if md
           }.compact
         end
       end
