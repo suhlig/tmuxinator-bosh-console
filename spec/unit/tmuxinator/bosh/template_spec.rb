@@ -29,19 +29,75 @@ RSpec.describe Tmuxinator::BOSH::Console::Template do
     let(:template_source) {
       (Pathname(__dir__).parent.parent.parent.parent / 'templates/bosh-console.yml')
     }
+    let(:result) { YAML.load(template.render(binding)) }
 
     context 'no instances' do
-      let(:result) { template.render(binding) }
       it 'produces valid YAML' do
-        expect { YAML.load(result) }.to_not raise_error
+        expect { result }.to_not raise_error
       end
 
       it 'renders the project name' do
-        expect(YAML.load(result)['name']).to eq('test')
+        expect(result['name']).to eq('test')
       end
 
       it 'renders no windows' do
-        expect(YAML.load(result)['windows']).to be_nil
+        expect(result['windows']).to be_nil
+      end
+    end
+
+    context 'one instance' do
+      let(:job_0) {
+        double.tap { |d|
+          allow(d).to receive(:[]).with(:job).and_return('job')
+          allow(d).to receive(:[]).with(:index).and_return(0)
+        }
+      }
+
+      before do
+        instances << job_0
+      end
+
+      it 'renders one window' do
+        expect(result['windows']).to_not be_empty
+        expect(result['windows'].size).to eq(1)
+      end
+
+      it 'renders the window name' do
+        expect(result['windows']).to_not be_empty
+        expect(result['windows'].first.keys.first).to eq('job/0')
+      end
+    end
+
+    context 'multiple instances' do
+      let(:job_0) {
+        double.tap { |d|
+          allow(d).to receive(:[]).with(:job).and_return('job')
+          allow(d).to receive(:[]).with(:index).and_return(0)
+        }
+      }
+
+      let(:job_1) {
+        double.tap { |d|
+          allow(d).to receive(:[]).with(:job).and_return('job')
+          allow(d).to receive(:[]).with(:index).and_return(1)
+        }
+      }
+
+      before do
+        instances << job_0
+        instances << job_1
+      end
+
+      it 'renders two windows' do
+        expect(result['windows']).to_not be_empty
+        expect(result['windows'].size).to eq(2)
+      end
+
+      it 'renders the window names' do
+        expect(result['windows']).to_not be_empty
+        expect(result['windows'].size).to eq(2)
+        expect(result['windows'].first.keys.first).to eq('job/0')
+        expect(result['windows'].last.keys.first).to eq('job/1')
       end
     end
   end
