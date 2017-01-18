@@ -16,8 +16,15 @@ end
 filter = {}
 
 OptionParser.new do |opts|
-  opts.on('-IFILTER', '--include=FILTER', 'include only jobs matching FILTER') do |f|
+  opts.banner = "Generates a tmuxinator configuration for the VMs of a BOSH deployment\n\n" + opts.banner
+  opts.separator "\nOptions:"
+
+  opts.on('-IFILTER', '--include=FILTER', 'include only jobs with a name matching FILTER') do |f|
     filter[:include] = Regexp.new(f)
+  end
+
+  opts.on('-XFILTER', '--exclude=FILTER', 'exclude jobs with a name matching FILTER') do |f|
+    filter[:exclude] = Regexp.new(f)
   end
 end.parse!
 
