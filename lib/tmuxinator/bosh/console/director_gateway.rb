@@ -12,11 +12,13 @@ module Tmuxinator
           @report = report
         end
 
-        def instances
+        def instances(filter={})
           @report.lines.map { |line|
             md = line.match(%r{\| (?<job>\w+)\/(?<index>\d+)})
             Job.new(md['job'], md['index']) if md
-          }.compact
+          }.compact.tap do |result|
+            result.select! { |job| filter[:include].match?(job.name) } if filter[:include]
+          end
         end
       end
     end

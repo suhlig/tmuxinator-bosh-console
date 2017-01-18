@@ -3,18 +3,23 @@
 
 $LOAD_PATH.unshift(File.expand_path('../../lib', __FILE__))
 
+require 'optparse'
 require 'pathname'
+require 'tmuxinator/bosh/console/director_gateway'
+require 'tmuxinator/bosh/console/template'
 
 def die(msg)
   warn "Error: #{msg}"
   exit(1)
 end
 
-require 'tmuxinator/bosh/console/director_gateway'
-require 'tmuxinator/bosh/console/template'
-include Tmuxinator::BOSH::Console
+filter = {}
 
-instances = DirectorGateway.new.instances
+OptionParser.new do |opts|
+  opts.on('-IFILTER', '--include=FILTER', 'include only jobs matching FILTER') do |f|
+    filter[:include] = Regexp.new(f)
+  end
+end.parse!
 
 project_name = ARGV.first || die('Missing argument for the tmuxinator project name')
 project_file = Pathname("~/.tmuxinator/#{project_name}.yml").expand_path
@@ -23,5 +28,9 @@ if project_file.exist?
   die("Not overriding tmuxinator project file #{project_file}")
 end
 
+include Tmuxinator::BOSH::Console
 template = Template.new(Pathname(__dir__) / '../templates/bosh-console.yml')
-project_file.write(template.render(binding))
+
+instances = DirectorGateway.new.instances(filter)
+output = template.render(binding)
+project_file.write(output)
