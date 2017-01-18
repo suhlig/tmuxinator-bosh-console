@@ -25,6 +25,5 @@ $ gem install tmuxinator-bosh-console
 
 ## TODO
 
-* repeated `--include`s
-* `--exclude` this VM (blacklisting); may be repeated
-* `--custom` bosh ssh command, e.g. gateway-host
+* custom `bosh ssh` options, e.g. gateway-host
+* repeated `--include`s and `--exclude`s will allow less complex regexes
