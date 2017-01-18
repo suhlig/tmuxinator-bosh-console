@@ -17,8 +17,8 @@ module Tmuxinator
             md = line.match(%r{\| (?<job>\w+)\/(?<index>\d+)})
             Job.new(md['job'], md['index']) if md
           }.compact.tap do |result|
-            result.select! { |job| filter[:include].match?(job.name) } if filter[:include]
-            result.reject! { |job| filter[:exclude].match?(job.name) } if filter[:exclude]
+            result.select! { |job| filter[:include].match(job.name) } if filter[:include]
+            result.reject! { |job| filter[:exclude].match(job.name) } if filter[:exclude]
           end
         end
       end
