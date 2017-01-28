@@ -5,7 +5,7 @@ module Tmuxinator
   module BOSH
     module Console
       #
-      # Gateway to the BOSH director
+      # Gateway to a v1 BOSH director
       #
       class DirectorGateway
         def initialize(report=`bosh instances`)
