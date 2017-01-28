@@ -1,7 +1,6 @@
 .rake_t_cache
 /.bundle/
 /.envrc/
-/Gemfile.lock
 /pkg/
 /spec/reports/
 /tmp/
