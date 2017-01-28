@@ -1,0 +1,129 @@
+{
+    "Tables": [
+        {
+            "Content": "vms",
+            "Header": [
+                "Instance",
+                "Process State",
+                "AZ",
+                "IPs",
+                "VM CID",
+                "VM Type"
+            ],
+            "Rows": [
+                [
+                    "api_z1/d93f4d9c-7e25-4bb3-b8de-a864662f7e7f",
+                    "running",
+                    "",
+                    "10.244.0.138",
+                    "bb8895d3-aa3b-4c67-6455-0a819a5ce2c1",
+                    "large_z1"
+                ],
+                [
+                    "blobstore_z1/f655ac92-73ef-4ab3-8bdb-248068031b30",
+                    "running",
+                    "",
+                    "10.244.0.130",
+                    "3228d2e8-9740-48d5-506b-3ee71d829034",
+                    "medium_z1"
+                ],
+                [
+                    "consul_z1/2aaa0bd4-1195-4030-8b2c-ab844ece9171",
+                    "running",
+                    "",
+                    "10.244.0.54",
+                    "09370b5c-6343-4120-52b1-7004d05f35a0",
+                    "small_z1"
+                ],
+                [
+                    "doppler_z1/d129a8ba-5558-4490-a8b4-41cfcaa8f718",
+                    "running",
+                    "",
+                    "10.244.0.146",
+                    "84f6438a-9598-44a5-6e95-8c7ad6d0e239",
+                    "medium_z1"
+                ],
+                [
+                    "etcd_z1/16f72244-1c1c-4e92-bb7a-f6868877e982",
+                    "running",
+                    "",
+                    "10.244.0.42",
+                    "1dc1f61b-a71d-41b5-7495-72733ce90218",
+                    "large_z1"
+                ],
+                [
+                    "ha_proxy_z1/d4ef8339-041f-4b48-8882-5fc9f54ba934",
+                    "running",
+                    "",
+                    "10.244.0.34",
+                    "2ae80e23-9663-4535-4a9b-cee5ec3e91d5",
+                    "router_z1"
+                ],
+                [
+                    "hm9000_z1/99edae15-fa44-4706-8ef6-a14995974ea5",
+                    "running",
+                    "",
+                    "10.244.0.142",
+                    "de5ad722-d34b-4bbf-54b9-327abef2e965",
+                    "medium_z1"
+                ],
+                [
+                    "loggregator_trafficcontroller_z1/97a03e2a-d2d1-478a-b1cb-84e96939fcdf",
+                    "running",
+                    "",
+                    "10.244.0.150",
+                    "cb1df47e-0cd0-4918-7e1b-10c5a39b00e6",
+                    "small_z1"
+                ],
+                [
+                    "nats_z1/30050da2-aff5-4833-8147-dd250b4a019b",
+                    "running",
+                    "",
+                    "10.244.0.6",
+                    "0cb6e272-1491-493a-54e5-e7d4c049989e",
+                    "medium_z1"
+                ],
+                [
+                    "postgres_z1/ef72bcaf-04b9-4285-8d69-3fea472f6d2c",
+                    "running",
+                    "",
+                    "10.244.0.30",
+                    "8fc30b8c-aae0-4343-58cc-237913761cf5",
+                    "medium_z1"
+                ],
+                [
+                    "router_z1/40540be7-2474-42e0-8144-264d1f7c68b1",
+                    "running",
+                    "",
+                    "10.244.0.22",
+                    "8a48f87a-1794-46a2-6b32-50d1f0cb6584",
+                    "router_z1"
+                ],
+                [
+                    "runner_z1/d5ce9eb7-61d8-4be7-81b1-fdb59ce1f631",
+                    "running",
+                    "",
+                    "10.244.0.26",
+                    "747e3700-e707-4b2d-4d3a-ff5c3fbd092f",
+                    "runner_z1"
+                ],
+                [
+                    "uaa_z1/0c6a14b0-bc29-4b0b-bbfe-55b8fa041f04",
+                    "running",
+                    "",
+                    "10.244.0.134",
+                    "ba95d4c1-fa76-4945-6614-cf8f186f3d0c",
+                    "medium_z1"
+                ]
+            ],
+            "Notes": null
+        }
+    ],
+    "Blocks": null,
+    "Lines": [
+        "Using environment 'https://192.168.50.4:25555' as client 'admin'",
+        "Task 109",
+        ". Done",
+        "Succeeded"
+    ]
+}

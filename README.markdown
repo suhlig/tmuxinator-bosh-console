@@ -32,4 +32,5 @@ $ gem install tmuxinator-bosh-console
 
 ## TODO
 
+* Think about `bosh instances` vs. `bosh vms`. We may or may not be interested in jobs that have no VMs, as produced by `bosh vms`.
 * repeated `--include`s and `--exclude`s will make less complex regexes
