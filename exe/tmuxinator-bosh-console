@@ -14,6 +14,7 @@ def die(msg)
 end
 
 filter = {}
+force = false
 
 OptionParser.new do |opts|
   opts.banner = "Generates a tmuxinator configuration for the VMs of a BOSH deployment\n\n" + opts.banner
@@ -26,12 +27,16 @@ OptionParser.new do |opts|
   opts.on('-XFILTER', '--exclude=FILTER', 'exclude jobs with a name matching FILTER') do |f|
     filter[:exclude] = Regexp.new(f)
   end
+
+  opts.on('-F', '--force', 'force overriding of the project file') do
+    force = true
+  end
 end.parse!
 
 project_name = ARGV.first || die('Missing argument for the tmuxinator project name')
 project_file = Pathname("~/.tmuxinator/#{project_name}.yml").expand_path
 
-if project_file.exist?
+if project_file.exist? && !force
   die("Not overriding tmuxinator project file #{project_file}")
 end
 
