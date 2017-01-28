@@ -30,5 +30,5 @@ $ gem install tmuxinator-bosh-console
 
 ## TODO
 
-* custom `bosh ssh` options, e.g. `--gateway-host`
+* append remaining args to `bosh ssh`, e.g. for `--gateway-host` etc
 * repeated `--include`s and `--exclude`s will make less complex regexes
