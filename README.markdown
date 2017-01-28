@@ -18,6 +18,8 @@ Once created, tmuxinator can be used as usual to launch the project:
 $ tmuxinator cf-warden
 ```
 
+Anything appearing after a single `--` argument is appended to `bosh ssh`, e.g. `--gateway-host` etc.
+
 ## Installation
 
 ```bash
@@ -30,5 +32,4 @@ $ gem install tmuxinator-bosh-console
 
 ## TODO
 
-* append remaining args to `bosh ssh`, e.g. for `--gateway-host` etc
 * repeated `--include`s and `--exclude`s will make less complex regexes

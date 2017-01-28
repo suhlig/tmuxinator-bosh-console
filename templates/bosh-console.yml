@@ -5,7 +5,7 @@ windows:
   <% instances.each do |vm| %>
   - <%= vm.name %>/<%= vm.index %>:
       layout: main-vertical
-      pre: bosh ssh <%= vm.name %>/<%= vm.index %>
+      pre: bosh ssh <%= vm.name %>/<%= vm.index %> <%= additional_args.join(' ') %>
       panes:
         - shell:
           - sudo su -

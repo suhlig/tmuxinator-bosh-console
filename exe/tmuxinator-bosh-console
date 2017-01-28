@@ -33,7 +33,9 @@ OptionParser.new do |opts|
   end
 end.parse!
 
-project_name = ARGV.first || die('Missing argument for the tmuxinator project name')
+project_name = ARGV.shift || die('Missing argument for the tmuxinator project name')
+additional_args = ARGV
+
 project_file = Pathname("~/.tmuxinator/#{project_name}.yml").expand_path
 
 if project_file.exist? && !force

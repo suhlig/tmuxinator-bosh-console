@@ -25,6 +25,7 @@ RSpec.describe Tmuxinator::BOSH::Console::Template do
 
   context 'using the default template' do
     let(:project_name) { 'test' }
+    let(:additional_args) { [] }
     let(:instances) { [] }
     let(:template_source) {
       (Pathname(__dir__).parent.parent.parent.parent.parent / 'templates/bosh-console.yml')
@@ -65,6 +66,18 @@ RSpec.describe Tmuxinator::BOSH::Console::Template do
       it 'renders the window name' do
         expect(result['windows']).to_not be_empty
         expect(result['windows'].first.keys.first).to eq('job/0')
+      end
+
+      it 'has a bosh ssh command' do
+        expect(result['windows'].first['job/0']['pre']).to eq 'bosh ssh job/0'
+      end
+
+      context 'additional arguments' do
+        let(:additional_args) { %w(foo --bar foobar) }
+
+        it 'appends the arguments to bosh ssh' do
+          expect(result['windows'].first['job/0']['pre']).to eq 'bosh ssh job/0 foo --bar foobar'
+        end
       end
     end
 
