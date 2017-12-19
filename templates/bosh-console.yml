@@ -1,0 +1,17 @@
+# ~/.tmuxinator/<%= deployment_name %>.yml
+
+name: <%= deployment_name %>
+windows:
+  <% instances.each do |instance| %>
+  - <%= instance.name %>/<%= instance.index %>:
+      layout: main-vertical
+      pre: bosh ssh <%= instance.name %>/<%= instance.index %> <%= additional_args.join(' ') %>
+      panes:
+        - shell:
+          - sudo su -
+          - cd /var/vcap
+        - monit:
+          - sudo watch -n 1 /var/vcap/bosh/bin/monit summary
+        - logs:
+          - tail -f /var/vcap/sys/log/*/*
+  <% end %>
