@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-$LOAD_PATH.unshift(File.expand_path('../../lib', __FILE__))
+$LOAD_PATH.unshift(File.expand_path('../lib', __dir__))
 
 require 'optparse'
 require 'pathname'
@@ -38,11 +38,12 @@ additional_args = ARGV
 
 project_file = Pathname("~/.tmuxinator/#{project_name}.yml").expand_path
 
-if project_file.exist? && !force
-  die("Not overriding tmuxinator project file #{project_file}")
-end
+die("Not overriding tmuxinator project file #{project_file}") if project_file.exist? && !force
 
+# rubocop:disable Style/MixinUsage
 include Tmuxinator::BOSH::Console
+# rubocop:enable Style/MixinUsage
+
 template = Template.new(Pathname(__dir__) / '../templates/bosh-console.yml')
 
 instances = DirectorGateway.new.instances(filter)
